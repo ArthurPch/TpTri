@@ -19,7 +19,7 @@ void echanger(Medicament *a, Medicament *b)
     *b = temp;
 }
 
-void trier_par_peremption(Medicament tab[], int n)
+/*void trier_par_peremption(Medicament tab[], int n)
 {
     int i, j;
     for (i = 0; i < n - 1; i++)
@@ -48,11 +48,25 @@ void trier_par_peremption(Medicament tab[], int n)
             }
         }
     }
+}*/
+void tri_par_nom(Medicament tab[], int n)
+{
+    int i, j;
+    for (i = 0; i < n - 1; i++)
+    {
+        for (j = 0; j < n - i - 1; j++)
+        {
+            if (strcmp(tab[j].nom, tab[j + 1].nom) > 0)
+            {
+                echanger(&tab[j], &tab[j + 1]);
+            }
+        }
+    }
 }
 
 void initialiser_medicaments(Medicament tab[], int *n)
 {
-    *n = 4;
+    *n = 5;
 
     strcpy(tab[0].nom, "Doliprane");
     strcpy(tab[0].code, "DOL123");
@@ -73,15 +87,59 @@ void initialiser_medicaments(Medicament tab[], int *n)
     strcpy(tab[3].code, "IBU321");
     tab[3].jourfab = 1; tab[3].moisfab = 11; tab[3].anfab = 2020;
     tab[3].jourper = 1; tab[3].moisper = 11; tab[3].anper = 2023;
+
+    strcpy(tab[4].nom, "Paracetamol");
+    strcpy(tab[4].code, "PAR321");
+    tab[4].jourfab = 1; tab[4].moisfab = 11; tab[4].anfab = 2020;
+    tab[4].jourper = 1; tab[4].moisper = 12; tab[4].anper = 2023;
+}
+
+void recherche_dicho(Medicament tab[],int n){
+    char nom[100];
+    int debut = 0, fin = n - 1, milieu, val = 0;
+    int trouve = 0;
+
+    printf("Entrez le nom du medicament a rechercher : ");
+    scanf("%s", nom);
+
+    while (debut <= fin && !trouve)
+    {
+        milieu = (debut + fin) / 2;
+        if (strcmp(tab[milieu].nom, nom) == 0)
+        {   
+            val = milieu+1;
+            printf("Medicament trouve : %d\n", val);
+            trouve = 1;
+        }
+        else if (strcmp(tab[milieu].nom, nom) < 0)
+        {
+            debut = milieu + 1;
+        }
+        else
+        {
+            fin = milieu - 1;
+        } 
+        ;     
+    }
+
+    if (!trouve)
+    {
+        printf("Medicament non trouve.\n");
+    }
 }
 
 void afficher_medicaments(Medicament tab[], int n)
 {
     int i;
-    printf("\n--- Liste des medicaments tries par date de peremption ---\n");
+    /*printf("\n--- Liste des medicaments tries par date de peremption ---\n");
     for (i = 0; i < n; i++)
     {
         printf("%s - Peremption : %02d/%02d/%04d\n", tab[i].nom, tab[i].jourper, tab[i].moisper, tab[i].anper);
+    }*/
+    printf("\n--- Liste des medicaments tries par nom ---\n");
+    for (int i = 0; i < n; i++)
+    {
+        printf("%s \n", tab[i].nom, tab[i].code);
     }
 }
 
@@ -91,8 +149,10 @@ int main()
     int n;
 
     initialiser_medicaments(tab, &n);
-    trier_par_peremption(tab, n);
+    //trier_par_peremption(tab, n);
+    tri_par_nom(tab, n);
     afficher_medicaments(tab, n);
+    recherche_dicho(tab, n);
 
     return 0;
 }
