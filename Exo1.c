@@ -72,28 +72,46 @@ void initialiser_medicaments(Medicament tab[], int *n)
     strcpy(tab[0].code, "DOL123");
     tab[0].jourfab = 10; tab[0].moisfab = 1; tab[0].anfab = 2022;
     tab[0].jourper = 10; tab[0].moisper = 1; tab[0].anper = 2025;
+    tab[0].prix = 2.5;
 
     strcpy(tab[1].nom, "Efferalgan");
     strcpy(tab[1].code, "EFF456");
     tab[1].jourfab = 5; tab[1].moisfab = 6; tab[1].anfab = 2021;
     tab[1].jourper = 5; tab[1].moisper = 6; tab[1].anper = 2024;
+    tab[1].prix = 3.5;
 
     strcpy(tab[2].nom, "Spasfon");
     strcpy(tab[2].code, "SPA789");
     tab[2].jourfab = 12; tab[2].moisfab = 3; tab[2].anfab = 2023;
     tab[2].jourper = 12; tab[2].moisper = 3; tab[2].anper = 2026;
+    tab[2].prix = 4.0;
 
     strcpy(tab[3].nom, "Ibuprofene");
     strcpy(tab[3].code, "IBU321");
     tab[3].jourfab = 1; tab[3].moisfab = 11; tab[3].anfab = 2020;
     tab[3].jourper = 1; tab[3].moisper = 11; tab[3].anper = 2023;
+    tab[3].prix = 2.0;
 
     strcpy(tab[4].nom, "Paracetamol");
     strcpy(tab[4].code, "PAR321");
     tab[4].jourfab = 1; tab[4].moisfab = 11; tab[4].anfab = 2020;
     tab[4].jourper = 1; tab[4].moisper = 12; tab[4].anper = 2023;
+    tab[4].prix = 1.5;
 }
-
+void pluscher(Medicament tab[], int n)
+{
+    float max = 0;
+    int i, position = 0;
+    for (i = 0; i < n; i++)
+    {
+        if (tab[i].prix > max)
+        {
+            max = tab[i].prix;
+            position = i;
+        }
+    }
+    printf("Le medicament le plus cher est : %s\n", tab[position].nom);
+}
 void recherche_dicho(Medicament tab[],int n){
     char nom[100];
     int debut = 0, fin = n - 1, milieu, val = 0;
@@ -119,7 +137,7 @@ void recherche_dicho(Medicament tab[],int n){
         {
             fin = milieu - 1;
         } 
-        ;     
+             
     }
 
     if (!trouve)
@@ -135,12 +153,13 @@ void afficher_medicaments(Medicament tab[], int n)
     for (i = 0; i < n; i++)
     {
         printf("%s - Peremption : %02d/%02d/%04d\n", tab[i].nom, tab[i].jourper, tab[i].moisper, tab[i].anper);
-    }*/
+    }
     printf("\n--- Liste des medicaments tries par nom ---\n");
     for (int i = 0; i < n; i++)
     {
         printf("%s \n", tab[i].nom, tab[i].code);
-    }
+    }*/
+    
 }
 
 int main()
@@ -150,9 +169,10 @@ int main()
 
     initialiser_medicaments(tab, &n);
     //trier_par_peremption(tab, n);
-    tri_par_nom(tab, n);
-    afficher_medicaments(tab, n);
-    recherche_dicho(tab, n);
+    //tri_par_nom(tab, n);
+    pluscher(tab, n);
+    //afficher_medicaments(tab, n);
+    //recherche_dicho(tab, n);
 
     return 0;
 }
